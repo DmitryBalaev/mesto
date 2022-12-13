@@ -1,0 +1,15 @@
+.cards__item-btn {
+  width: 22px;
+  height: 19px;
+  padding: 0;
+  border: none;
+  background-color: #fff;
+  background-image: url(../../../image/svg/likeDisabled.svg);
+  background-repeat: no-repeat;
+  cursor: pointer;
+  transition: opacity .4s;
+}
+
+.cards__item-btn:hover {
+  opacity: .5;
+}
