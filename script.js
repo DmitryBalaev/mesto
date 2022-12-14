@@ -4,6 +4,17 @@ let editBtn = document.querySelector('.profile__edit-btn');
 let closePopupBtn = document.querySelector('.popup__btn-close');
 let popup = document.querySelector('.popup');
 let popupOverlay =document.querySelector('.popup__overlay');
+let userName = document.querySelector('.profile__user-name');
+let userProfession = document.querySelector('.profile__profession');
+let userNameInput = document.querySelectorAll('.popup__input');
+let submitBtn = document.querySelector('.popup__btn-submit');
+
+
+submitBtn.addEventListener('click', function() {
+  userName.textContent = userNameInput[0].value;
+  userProfession.textContent = userNameInput[1].value;
+  popup.classList.remove('popup_opened');
+})
 
 // Проходимся по nodeList и ищем кнопки
 btn.forEach(button => {
