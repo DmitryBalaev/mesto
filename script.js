@@ -10,13 +10,14 @@ let userNameInput = document.querySelectorAll('.popup__input');
 let submitBtn = document.querySelector('.popup__btn-submit');
 
 
-submitBtn.addEventListener('click', function() {
+submitBtn.addEventListener('click', function(event) {
+  event.preventDefault()
   userName.textContent = userNameInput[0].value;
   userProfession.textContent = userNameInput[1].value;
   popup.classList.remove('popup_opened');
 })
 
-// Проходимся по nodeList и ищем кнопки
+// Проходимся по nodeList и ищем кнопки like
 btn.forEach(button => {
   button.addEventListener('click', function() {
     button.classList.toggle('cards__item-btn_active'); // добавляем класс по клику
