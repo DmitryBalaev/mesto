@@ -4,7 +4,8 @@
   margin: 0;
   padding: 0;
   border: none;
-  background-image: url(../../../image/svg/closeIcon.png);
+  background-image: url(../../../images/svg/closeIcon.svg);
+  background-size: contain;
   background-color: transparent;
   background-repeat: no-repeat;
   background-position: center;
