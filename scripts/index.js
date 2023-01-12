@@ -11,6 +11,9 @@ const userProfession = document.querySelector('.profile__profession')
 const userNameInput = document.querySelector('.popup__input_user_name')
 const userProfessionInput = document.querySelector('.popup__input_user_profession')
 const profileForm = document.querySelector('.popup__form_edit-profile')
+const addForm = addPopup.querySelector('.popup__form_new-card')
+const newCardName = addPopup.querySelector('.popup__input_new-card_name')
+const newCardImg = addPopup.querySelector('.popup__input_new-card_link')
 const cardList = document.querySelector('.cards__list')
 const cardItemTemplate = document.querySelector('#card-item').content
 const initialCards = [
@@ -79,9 +82,25 @@ function saveValue (evt) {
   evt.preventDefault()
   userName.textContent = userNameInput.value
   userProfession.textContent = userProfessionInput.value
+  closePopup(editPopup)()
 }
 profileForm.addEventListener('submit', saveValue)
-profileForm.addEventListener('submit', closePopup(editPopup))
+// Добавление новых карточек
+function addNewCard (evt) {
+  evt.preventDefault()
+  closePopup(addPopup)()
+  renderNewCard()
+}
+function renderNewCard () {
+  const newCard = cardItemTemplate.querySelector('.cards__item').cloneNode(true)
+  let image = newCardImg.value
+  let title = newCardName.value
+  newCard.querySelector('.cards__item-img').src = image
+  newCard.querySelector('.cards__item-title').textContent = title
+  cardList.prepend(newCard)
+}
+addForm.addEventListener('submit', addNewCard)
+// profileForm.addEventListener('submit', closePopup(editPopup))
 
 // function openPopup (popup) {
   //   return () => {
