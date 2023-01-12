@@ -56,6 +56,9 @@ function renderCard ({title, link}) {
   const cardItem = cardItemTemplate.querySelector('.cards__item').cloneNode(true)
   cardItem.querySelector('.cards__item-img').src = link
   cardItem.querySelector('.cards__item-title').textContent = title
+  cardItem.querySelector('.cards__item-btn').addEventListener('click', function (evt) {
+    evt.target.classList.toggle('cards__item-btn_active')
+  })
   cardList.append(cardItem)
 }
 render();
@@ -93,52 +96,14 @@ function addNewCard (evt) {
 }
 function renderNewCard () {
   const newCard = cardItemTemplate.querySelector('.cards__item').cloneNode(true)
-  let image = newCardImg.value
-  let title = newCardName.value
+  const image = newCardImg.value
+  const title = newCardName.value
   newCard.querySelector('.cards__item-img').src = image
   newCard.querySelector('.cards__item-title').textContent = title
+  newCard.querySelector('.cards__item-btn').addEventListener('click', function (evt) {
+    evt.target.classList.toggle('cards__item-btn_active')
+  })
   cardList.prepend(newCard)
 }
 addForm.addEventListener('submit', addNewCard)
-// profileForm.addEventListener('submit', closePopup(editPopup))
-
-// function openPopup (popup) {
-  //   return () => {
-  //     console.log(popup)
-  //     popup.classList.add('popup_opened')};
-  // }
-// // function editPopupOpen() {
-// //   editPopup.classList.add('popup_opened');
-// //   userNameInput.value = userName.textContent;
-// //   userProfessionInput.value = userProfession.textContent;
-// // }
-// // function addCardPopupOpen() {
-// //   popupNewCard.classList.add('popup_opened');
-// // }
-// function popupClose() {
-//   popup.classList.remove('popup_opened');
-// }
-
-// function saveProfile(event) {
-//   event.preventDefault()
-//   userName.textContent = userNameInput.value;
-//   userProfession.textContent = userProfessionInput.value;
-//   popupClose();
-// }
-// // profileForm.addEventListener('submit', saveProfile);
-// // newCardAddBtn.addEventListener('click', addCardPopupOpen);
-// // editBtn.addEventListener('click', editPopupOpen);
-// // closePopupBtn.addEventListener('click', popupClose);
-
-
-// function closePopup () {
-//   return () => {
-//     console.log(popup)
-//     popup.classList.remove('popup_opened')};
-// }
-
-// newCardAddBtn.addEventListener('click', openPopup(popupNewCard))
-// editBtn.addEventListener('click', openPopup(popup))
-// closePopupBtn.addEventListener('click', closePopup(popup))
-// closePopupBtn.addEventListener('click', closePopup(popupNewCard))
 
