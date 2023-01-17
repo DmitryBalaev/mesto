@@ -40,7 +40,8 @@
       <h2 class="popup__title">Редактировать профиль</h2>
       <form class="popup__form popup__form_edit-profile" name="profile-info">
         <input class="popup__input popup__input_user_name" name="profile-user-name" type="text" value="Жак-Ив Кусто">
-        <input class="popup__input popup__input_user_profession" name="profile-profession" type="text" value="Исследователь океана">
+        <input class="popup__input popup__input_user_profession" name="profile-profession" type="text"
+               value="Исследователь океана">
         <button class="popup__btn-submit" type="submit">Сохранить</button>
       </form>
       <button class="popup__btn-close" type="button"></button>
@@ -50,11 +51,20 @@
     <div class="popup__container">
       <h2 class="popup__title">Новое место</h2>
       <form class="popup__form popup__form_new-card" name="new-card">
-        <input class="popup__input popup__input_new-card_name" name="new-card-name" type="text" value="" placeholder="Название">
-        <input class="popup__input popup__input_new-card_link" name="new-card-link" type="text" value="" placeholder="Ссылка на картинку">
+        <input class="popup__input popup__input_new-card_name" name="new-card-name" type="text" value=""
+               placeholder="Название">
+        <input class="popup__input popup__input_new-card_link" name="new-card-link" type="text" value=""
+               placeholder="Ссылка на картинку">
         <button class="popup__btn-submit" type="submit">Сохранить</button>
       </form>
       <button class="popup__btn-close" type="button"></button>
+    </div>
+  </div>
+  <div class="popup popup-image full-screen">
+    <div class="full-screen__container">
+      <img src="https://cs9.pikabu.ru/post_img/big/2016/10/10/7/1476099065140729329.jpg" alt="" class="full-screen__image">
+      <button type="button" class="popup__btn-close"></button>
+      <p class="full-screen__descriptions">Челябинская область</p>
     </div>
   </div>
   <template id="card-item">

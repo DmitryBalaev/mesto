@@ -2,6 +2,10 @@
 const popup = document.querySelector('.popup')
 const editPopup = document.querySelector('.popup-edit')
 const addPopup = document.querySelector('.popup-add')
+const imagePopup = document.querySelector('.popup-image')
+const fullScreenDescriptions = imagePopup.querySelector('.full-screen__descriptions')
+const fullScreenImg = imagePopup.querySelector('.full-screen__image')
+const closeimagePopup = imagePopup.querySelector('.popup__btn-close')
 const closeAddPoupBtn = addPopup.querySelector('.popup__btn-close')
 const closeBtn = popup.querySelector('.popup__btn-close')
 const editBtn = document.querySelector('.profile__edit-btn')
@@ -62,6 +66,11 @@ function renderCard ({title, link}) {
   cardItem.querySelector('.card__item-trash-btn').addEventListener('click', function (evt){
     evt.target.parentElement.remove()
   })
+  cardItem.querySelector('.cards__item-img').addEventListener('click', openPopup(imagePopup))
+  cardItem.querySelector('.cards__item-img').addEventListener('click', function () {
+    fullScreenImg.src = link
+    fullScreenDescriptions.textContent = title
+  })
   cardList.append(cardItem)
 }
 render();
@@ -78,6 +87,7 @@ function closePopup (popup) {
 }
 closeBtn.addEventListener('click', closePopup (editPopup))
 closeAddPoupBtn.addEventListener('click', closePopup(addPopup))
+closeimagePopup.addEventListener('click', closePopup(imagePopup))
 // Сохранение текста из инпутов
 function saveProfileText () {
   userNameInput.value = userName.textContent;
@@ -108,6 +118,11 @@ function renderNewCard () {
   })
   newCard.querySelector('.card__item-trash-btn').addEventListener('click', function (evt){
     evt.target.parentElement.remove()
+  })
+  newCard.querySelector('.cards__item-img').addEventListener('click', openPopup(imagePopup))
+  newCard.querySelector('.cards__item-img').addEventListener('click', function () {
+    fullScreenImg.src = image
+    fullScreenDescriptions.textContent = title
   })
   cardList.prepend(newCard)
 }
