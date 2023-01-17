@@ -1,51 +1,26 @@
 // Объявляем переменные
 const popup = document.querySelector('.popup')
-const editPopup = document.querySelector('.popup-edit')
-const addPopup = document.querySelector('.popup-add')
-const imagePopup = document.querySelector('.popup-image')
-const fullScreenDescriptions = imagePopup.querySelector('.full-screen__descriptions')
-const fullScreenImg = imagePopup.querySelector('.full-screen__image')
-const closeimagePopup = imagePopup.querySelector('.popup__btn-close')
-const closeAddPoupBtn = addPopup.querySelector('.popup__btn-close')
-const closeBtn = popup.querySelector('.popup__btn-close')
-const editBtn = document.querySelector('.profile__edit-btn')
-const addBtn = document.querySelector('.profile__add-btn')
-const userName = document.querySelector('.profile__user-name')
-const userProfession = document.querySelector('.profile__profession')
-const userNameInput = document.querySelector('.popup__input_user_name')
-const userProfessionInput = document.querySelector('.popup__input_user_profession')
-const profileForm = document.querySelector('.popup__form_edit-profile')
-const addForm = addPopup.querySelector('.popup__form_new-card')
-const newCardName = addPopup.querySelector('.popup__input_new-card_name')
-const newCardImg = addPopup.querySelector('.popup__input_new-card_link')
+const btnEditProfile = document.querySelector('.profile__edit-btn')
+const btnPopupClose = popup.querySelector('.popup__btn-close')
+const btnAddCard = document.querySelector('.profile__add-btn')
+const popupEditProfile = document.querySelector('.popup-edit')
+const popupEditProfileUserNameInput = document.querySelector('.popup__input_user_name')
+const popupEditProfileUserProfessionInput = document.querySelector('.popup__input_user_profession')
+const popupEditProfileForm = document.querySelector('.popup__form_edit-profile')
+const popupAddCard = document.querySelector('.popup-add')
+const popupAddCardCloseBtn = popupAddCard.querySelector('.popup__btn-close')
+const popupAddCardForm = popupAddCard.querySelector('.popup__form_new-card')
+const popupAddCardNameInput = popupAddCard.querySelector('.popup__input_new-card_name')
+const popupAddCardImgInput = popupAddCard.querySelector('.popup__input_new-card_link')
+const popupFullScreen = document.querySelector('.popup-image')
+const popupFullScreenDescriptions = popupFullScreen.querySelector('.full-screen__descriptions')
+const popupFullScreenImg = popupFullScreen.querySelector('.full-screen__image')
+const popupFullScreenCloseBtn = popupFullScreen.querySelector('.popup__btn-close')
+const profileUserName = document.querySelector('.profile__user-name')
+const profileProfession = document.querySelector('.profile__profession')
 const cardList = document.querySelector('.cards__list')
 const cardItemTemplate = document.querySelector('#card-item').content
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+
 // Рендер 6 карточек
 const cardItemContent = initialCards.map(function (item) {
   return {
@@ -53,7 +28,7 @@ const cardItemContent = initialCards.map(function (item) {
     link : item.link
   };
 })
-function render() {
+function renderInitialCards() {
   cardItemContent.forEach(renderCard)
 }
 function renderCard ({title, link}) {
@@ -66,51 +41,58 @@ function renderCard ({title, link}) {
   cardItem.querySelector('.card__item-trash-btn').addEventListener('click', function (evt){
     evt.target.parentElement.remove()
   })
-  cardItem.querySelector('.cards__item-img').addEventListener('click', openPopup(imagePopup))
+  cardItem.querySelector('.cards__item-img').addEventListener('click', openPopup(popupFullScreen))
   cardItem.querySelector('.cards__item-img').addEventListener('click', function () {
-    fullScreenImg.src = link
-    fullScreenDescriptions.textContent = title
+    popupFullScreenImg.src = link
+    popupFullScreenDescriptions.textContent = title
   })
   cardList.append(cardItem)
 }
-render();
+renderInitialCards();
 // Открытие попапов
 function openPopup (popup) {
-  return () => popup.classList.add('popup_opened')
-}
-editBtn.addEventListener('click', openPopup(editPopup))
-editBtn.addEventListener('click', saveProfileText)
-addBtn.addEventListener('click', openPopup(addPopup))
+  return () => {
+    popup.classList.add('popup_opened')
+    resetPopupAddCardValue()
+  }}
+btnEditProfile.addEventListener('click', openPopup(popupEditProfile))
+btnEditProfile.addEventListener('click', saveProfileText)
+btnAddCard.addEventListener('click', openPopup(popupAddCard))
 // Закрытие попапов
 function closePopup (popup) {
   return () => popup.classList.remove('popup_opened')
 }
-closeBtn.addEventListener('click', closePopup (editPopup))
-closeAddPoupBtn.addEventListener('click', closePopup(addPopup))
-closeimagePopup.addEventListener('click', closePopup(imagePopup))
+btnPopupClose.addEventListener('click', closePopup (popupEditProfile))
+popupAddCardCloseBtn.addEventListener('click', closePopup(popupAddCard))
+popupFullScreenCloseBtn.addEventListener('click', closePopup(popupFullScreen))
 // Сохранение текста из инпутов
 function saveProfileText () {
-  userNameInput.value = userName.textContent;
-  userProfessionInput.value = userProfession.textContent
+  popupEditProfileUserNameInput.value = profileUserName.textContent;
+  popupEditProfileUserProfessionInput.value = profileProfession.textContent
+}
+// Обнуление value
+function resetPopupAddCardValue (){
+  popupAddCardNameInput.value = ''
+  popupAddCardImgInput.value = ''
 }
 // Сохранение value инпутов в профиле
-function saveValue (evt) {
+function saveEditProfileValue (evt) {
   evt.preventDefault()
-  userName.textContent = userNameInput.value
-  userProfession.textContent = userProfessionInput.value
-  closePopup(editPopup)()
+  profileUserName.textContent = popupEditProfileUserNameInput.value
+  profileProfession.textContent = popupEditProfileUserProfessionInput.value
+  closePopup(popupEditProfile)()
 }
-profileForm.addEventListener('submit', saveValue)
+popupEditProfileForm.addEventListener('submit', saveEditProfileValue)
 // Добавление новых карточек
 function addNewCard (evt) {
   evt.preventDefault()
-  closePopup(addPopup)()
+  closePopup(popupAddCard)()
   renderNewCard()
 }
 function renderNewCard () {
   const newCard = cardItemTemplate.querySelector('.cards__item').cloneNode(true)
-  const image = newCardImg.value
-  const title = newCardName.value
+  const image = popupAddCardImgInput.value
+  const title = popupAddCardNameInput.value
   newCard.querySelector('.cards__item-img').src = image
   newCard.querySelector('.cards__item-title').textContent = title
   newCard.querySelector('.cards__item-btn').addEventListener('click', function (evt) {
@@ -119,12 +101,12 @@ function renderNewCard () {
   newCard.querySelector('.card__item-trash-btn').addEventListener('click', function (evt){
     evt.target.parentElement.remove()
   })
-  newCard.querySelector('.cards__item-img').addEventListener('click', openPopup(imagePopup))
+  newCard.querySelector('.cards__item-img').addEventListener('click', openPopup(popupFullScreen))
   newCard.querySelector('.cards__item-img').addEventListener('click', function () {
-    fullScreenImg.src = image
-    fullScreenDescriptions.textContent = title
+    popupFullScreenImg.src = image
+    popupFullScreenDescriptions.textContent = title
   })
   cardList.prepend(newCard)
 }
-addForm.addEventListener('submit', addNewCard)
+popupAddCardForm.addEventListener('submit', addNewCard)
 
