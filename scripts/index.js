@@ -59,6 +59,9 @@ function renderCard ({title, link}) {
   cardItem.querySelector('.cards__item-btn').addEventListener('click', function (evt) {
     evt.target.classList.toggle('cards__item-btn_active')
   })
+  cardItem.querySelector('.card__item-trash-btn').addEventListener('click', function (evt){
+    evt.target.parentElement.remove()
+  })
   cardList.append(cardItem)
 }
 render();
@@ -102,6 +105,9 @@ function renderNewCard () {
   newCard.querySelector('.cards__item-title').textContent = title
   newCard.querySelector('.cards__item-btn').addEventListener('click', function (evt) {
     evt.target.classList.toggle('cards__item-btn_active')
+  })
+  newCard.querySelector('.card__item-trash-btn').addEventListener('click', function (evt){
+    evt.target.parentElement.remove()
   })
   cardList.prepend(newCard)
 }
