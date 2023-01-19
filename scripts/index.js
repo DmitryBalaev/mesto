@@ -1,7 +1,6 @@
 // Объявляем переменные
-const popup = document.querySelector('.popup')
 const btnEditProfile = document.querySelector('.profile__edit-btn')
-const btnPopupClose = popup.querySelector('.popup__btn-close')
+const buttonClosePopupEditProfile = document.querySelector('.popup__btn-close')
 const btnAddCard = document.querySelector('.profile__add-btn')
 const popupEditProfile = document.querySelector('.popup-edit')
 const popupEditProfileUserNameInput = document.querySelector('.popup__input_user_name')
@@ -24,8 +23,9 @@ const cardItemTemplate = document.querySelector('#card-item').content
 // Рендер 6 карточек
 function createCard(name, link) {
   const cardItem = cardItemTemplate.querySelector('.cards__item').cloneNode(true)
-  cardItem.querySelector('.cards__item-img').src = link
-  cardItem.querySelector('.cards__item-img').alt = name
+  const cardItemImage = cardItem.querySelector('.cards__item-img')
+  cardItemImage.src = link
+  cardItemImage.alt = name
   cardItem.querySelector('.cards__item-title').textContent = name
   cardItem.querySelector('.cards__item-btn').addEventListener('click', function (evt) {
     evt.target.classList.toggle('cards__item-btn_active')
@@ -33,8 +33,8 @@ function createCard(name, link) {
   cardItem.querySelector('.card__item-trash-btn').addEventListener('click', function (evt) {
     evt.target.parentElement.remove()
   })
-  cardItem.querySelector('.cards__item-img').addEventListener('click', openPopup(popupFullScreen))
-  cardItem.querySelector('.cards__item-img').addEventListener('click', function () {
+  cardItemImage.addEventListener('click', openPopup(popupFullScreen))
+  cardItemImage.addEventListener('click', function () {
     popupFullScreenImg.src = link
     popupFullScreenImg.alt = name
     popupFullScreenDescriptions.textContent = name
@@ -50,34 +50,31 @@ function createCard(name, link) {
 function openPopup(popup) {
   return () => {
     popup.classList.add('popup_opened')
-    resetPopupAddCardValue()
   }
 }
 btnEditProfile.addEventListener('click', function () {
   openPopup(popupEditProfile)()
-  saveProfileText()
+  fillInFormInputs()
 })
-btnAddCard.addEventListener('click', openPopup(popupAddCard))
+btnAddCard.addEventListener('click', function ()  {
+  openPopup(popupAddCard)()
+  popupAddCardForm.reset()
+})
 
 // Закрытие попапов
 function closePopup(popup) {
   return () => popup.classList.remove('popup_opened')
 }
-btnPopupClose.addEventListener('click', closePopup(popupEditProfile))
+buttonClosePopupEditProfile.addEventListener('click', closePopup(popupEditProfile))
 popupAddCardCloseBtn.addEventListener('click', closePopup(popupAddCard))
 popupFullScreenCloseBtn.addEventListener('click', closePopup(popupFullScreen))
 // Сохранение текста из инпутов
 
-function saveProfileText() {
+function fillInFormInputs() {
   popupEditProfileUserNameInput.value = profileUserName.textContent;
   popupEditProfileUserProfessionInput.value = profileProfession.textContent
 }
 
-// Обнуление value
-function resetPopupAddCardValue() {
-  popupAddCardNameInput.value = ''
-  popupAddCardImgInput.value = ''
-}
 // Сохранение value инпутов в профиле
 function saveEditProfileValue(evt) {
   evt.preventDefault()
