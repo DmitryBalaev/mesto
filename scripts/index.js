@@ -43,20 +43,27 @@ btnAddCard.addEventListener('click', function ()  {
 
 // Закрытие попапов
 function closePopup(popup) {
+  document.removeEventListener('keydown',(evt) => {
+    if(evt.key === 'Escape') {
+      closePopup(popup)()
+      console.log('here')
+    }
+  })
   return () => popup.classList.remove('popup_opened')
 }
-function keyHandler (evt, popup){
-  if(evt.key === 'Escape'){
-    popup.classList.remove('popup_opened')
-  }
-}
-popupAddCardForm.addEventListener('keydown', keyHandler('keydown', popupAddCard))
-popupEditProfileOverlay.addEventListener('click', closePopup(popupEditProfile))
+
+popupItem.forEach((popup) => {
+  document.addEventListener('keydown',(evt) => {
+    if(evt.key === 'Escape') {
+      closePopup(popup)()
+    }
+  })
+  popup.firstElementChild.addEventListener('click', closePopup(popup))
+})
+
 buttonClosePopupEditProfile.addEventListener('click', closePopup(popupEditProfile))
-popupAddCardOverlay.addEventListener('click', closePopup(popupAddCard))
 popupAddCardCloseBtn.addEventListener('click', closePopup(popupAddCard))
 popupFullScreenCloseBtn.addEventListener('click', closePopup(popupFullScreen))
-popupFullScreenOverlay.addEventListener('click', closePopup(popupFullScreen))
 // Сохранение текста из инпутов
 
 function fillInFormInputs() {
@@ -79,4 +86,3 @@ function addNewCard() {
   cardList.prepend(newCard)
 }
 popupAddCardForm.addEventListener('submit', addNewCard)
-

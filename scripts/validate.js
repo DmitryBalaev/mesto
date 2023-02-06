@@ -10,7 +10,6 @@ function enableValidation(obj) {
   })
 }
 
-
 function disableSubmit(evt) {
   evt.preventDefault()
 }
@@ -21,14 +20,13 @@ function handelFormInput(evt, obj) {
   const errorSpan = document.querySelector(`#${inputId}-error`)
 
   if(input.validity.valid) {
-    input.classList.remove(obj.errorClass)
+    input.classList.remove(obj.inputErrorClass)
     errorSpan.textContent = ''
   } else {
-    input.classList.add(obj.errorClass)
+    input.classList.add(obj.inputErrorClass)
     errorSpan.textContent = input.validationMessage
   }
 }
-
 
 function toggleBtn(form, obj) {
   const btnSubmit = form.querySelector(obj.buttonSelector)
@@ -36,7 +34,6 @@ function toggleBtn(form, obj) {
   btnSubmit.disabled = !isFormValid
   btnSubmit.classList.toggle(obj.buttonDisabledClass, !isFormValid)
 }
-
 
 function addInputListeners(form, obj) {
   const inputList = Array.from(form.querySelectorAll(obj.inputSelector))

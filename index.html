@@ -36,6 +36,7 @@
     <p class="footer__copyright">&#169; 2022 Mesto Russia</p>
   </footer>
   <div class="popup popup-edit">
+    <div class="popup__overlay"></div>
     <div class="popup__container">
       <h2 class="popup__title">Редактировать профиль</h2>
       <form class="popup__form popup__form_edit-profile" name="profile-info" novalidate>
@@ -66,9 +67,9 @@
       </form>
       <button class="popup__btn-close" type="button"></button>
     </div>
-    <div class="popup__overlay"></div>
   </div>
   <div class="popup popup-add">
+    <div class="popup__overlay"></div>
     <div class="popup__container">
       <h2 class="popup__title">Новое место</h2>
       <form class="popup__form popup__form_new-card" name="new-card" novalidate>
@@ -97,15 +98,14 @@
       </form>
       <button class="popup__btn-close" type="button"></button>
     </div>
-    <div class="popup__overlay"></div>
   </div>
   <div class="popup popup-image full-screen">
+    <div class="popup__overlay"></div>
     <div class="full-screen__container">
       <img src="#" alt="" class="full-screen__image">
       <button type="button" class="popup__btn-close"></button>
       <p class="full-screen__descriptions"></p>
     </div>
-    <div class="popup__overlay"></div>
   </div>
   <template id="card-item">
     <li class="cards__item">
