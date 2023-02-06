@@ -33,16 +33,34 @@ function openPopup(popup) {
 btnEditProfile.addEventListener('click', function () {
   openPopup(popupEditProfile)()
   fillInFormInputs()
+  enableValidation(formValidationObj)
 })
 btnAddCard.addEventListener('click', function ()  {
   openPopup(popupAddCard)()
   popupAddCardForm.reset()
+  enableValidation(formValidationObj)
 })
 
 // Закрытие попапов
 function closePopup(popup) {
+  document.removeEventListener('keydown',(evt) => {
+    if(evt.key === 'Escape') {
+      closePopup(popup)()
+      console.log('here')
+    }
+  })
   return () => popup.classList.remove('popup_opened')
 }
+
+popupItem.forEach((popup) => {
+  document.addEventListener('keydown',(evt) => {
+    if(evt.key === 'Escape') {
+      closePopup(popup)()
+    }
+  })
+  popup.firstElementChild.addEventListener('click', closePopup(popup))
+})
+
 buttonClosePopupEditProfile.addEventListener('click', closePopup(popupEditProfile))
 popupAddCardCloseBtn.addEventListener('click', closePopup(popupAddCard))
 popupFullScreenCloseBtn.addEventListener('click', closePopup(popupFullScreen))
@@ -54,8 +72,7 @@ function fillInFormInputs() {
 }
 
 // Сохранение value инпутов в профиле
-function saveEditProfileValue(evt) {
-  evt.preventDefault()
+function saveEditProfileValue() {
   profileUserName.textContent = popupEditProfileUserNameInput.value
   profileProfession.textContent = popupEditProfileUserProfessionInput.value
   closePopup(popupEditProfile)()
@@ -63,11 +80,9 @@ function saveEditProfileValue(evt) {
 popupEditProfileForm.addEventListener('submit', saveEditProfileValue)
 
 // Добавление новых карточек
-function addNewCard(evt) {
-  evt.preventDefault()
+function addNewCard() {
   closePopup(popupAddCard)()
   const newCard = createCard(popupAddCardNameInput.value, popupAddCardImgInput.value)
   cardList.prepend(newCard)
 }
 popupAddCardForm.addEventListener('submit', addNewCard)
-

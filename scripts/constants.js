@@ -24,6 +24,7 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+const popupItem = document.querySelectorAll('.popup')
 const btnEditProfile = document.querySelector('.profile__edit-btn')
 const buttonClosePopupEditProfile = document.querySelector('.popup__btn-close')
 const btnAddCard = document.querySelector('.profile__add-btn')
@@ -44,3 +45,10 @@ const profileUserName = document.querySelector('.profile__user-name')
 const profileProfession = document.querySelector('.profile__profession')
 const cardList = document.querySelector('.cards__list')
 const cardItemTemplate = document.querySelector('#card-item').content
+const formValidationObj = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  inputErrorClass: 'popup__input_type_error',
+  buttonSelector: '.popup__btn-submit',
+  buttonDisabledClass: 'popup__btn-submit_disabled',
+}
