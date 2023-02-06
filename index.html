@@ -49,7 +49,7 @@
             required
             id="name-input"
         >
-        <span class="popup__input-error name-input-error"></span>
+        <span class="popup__input-error" id="name-input-error"></span>
         <input
             class="popup__input popup__input_user_profession"
             name="profile-profession"
@@ -61,16 +61,17 @@
             maxlength="200"
             id="profession-input"
         >
-        <span class="popup__input-error profession-input-error"></span>
+        <span class="popup__input-error" id="profession-input-error"></span>
         <button class="popup__btn-submit" type="submit">Сохранить</button>
       </form>
       <button class="popup__btn-close" type="button"></button>
     </div>
+    <div class="popup__overlay"></div>
   </div>
   <div class="popup popup-add">
     <div class="popup__container">
       <h2 class="popup__title">Новое место</h2>
-      <form class="popup__form popup__form_new-card" name="new-card" >
+      <form class="popup__form popup__form_new-card" name="new-card" novalidate>
         <input
             class="popup__input popup__input_new-card_name"
             name="new-card-name" type="text"
@@ -81,21 +82,22 @@
             maxlength="30"
             id="card-name-input"
           >
-          <span class="popup__input-error card-name-input-error"></span>
+          <span class="popup__input-error" id="card-name-input-error"></span>
         <input
             class="popup__input popup__input_new-card_link"
-            name="new-card-link" type="text"
+            name="new-card-link"
             value=""
             placeholder="Ссылка на картинку"
             required
             type="url"
             id="card-link-input"
         >
-        <span class="popup__input-error card-link-input-error"></span>
+        <span class="popup__input-error" id="card-link-input-error"></span>
         <button class="popup__btn-submit" type="submit">Сохранить</button>
       </form>
       <button class="popup__btn-close" type="button"></button>
     </div>
+    <div class="popup__overlay"></div>
   </div>
   <div class="popup popup-image full-screen">
     <div class="full-screen__container">
@@ -103,6 +105,7 @@
       <button type="button" class="popup__btn-close"></button>
       <p class="full-screen__descriptions"></p>
     </div>
+    <div class="popup__overlay"></div>
   </div>
   <template id="card-item">
     <li class="cards__item">
@@ -115,6 +118,7 @@
     </li>
   </template>
   <script src="./scripts/constants.js"></script>
+  <script src="./scripts/validate.js"></script>
   <script src="./scripts/index.js"></script>
 </body>
 
