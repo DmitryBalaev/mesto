@@ -11,11 +11,11 @@ function createCard(name, link) {
   cardItem.querySelector('.card__item-trash-btn').addEventListener('click', function (evt) {
     evt.target.parentElement.remove()
   })
-  cardItemImage.addEventListener('click', openPopup(popupFullScreen))
   cardItemImage.addEventListener('click', function () {
     popupFullScreenImg.src = link
     popupFullScreenImg.alt = name
     popupFullScreenDescriptions.textContent = name
+    openPopup(popupFullScreen)()
   })
   return cardItem
 }
@@ -23,43 +23,49 @@ function createCard(name, link) {
   const card = createCard(data.name, data.link);
   cardList.append(card);
 })
+// Клик на overlay и Esp
+function closePopupOnClickEsc (evt) {
+  if(evt.key === 'Escape'){
+    const currentPopup = document.querySelector('.popup_opened')
+    closePopup(currentPopup)()
+  }
+}
+popupItem.forEach((item) => {
+  item.firstElementChild.addEventListener('click', closePopup(item))
+})
 
 // Открытие попапов
 function openPopup(popup) {
+  document.addEventListener('keydown', closePopupOnClickEsc)
   return () => {
     popup.classList.add('popup_opened')
   }
 }
+
 btnEditProfile.addEventListener('click', function () {
-  openPopup(popupEditProfile)()
   fillInFormInputs()
-  enableValidation(formValidationObj)
+  openPopup(popupEditProfile)()
 })
 btnAddCard.addEventListener('click', function ()  {
-  openPopup(popupAddCard)()
   popupAddCardForm.reset()
-  enableValidation(formValidationObj)
+  toggleBtn(popupAddCardForm, formValidationObj)
+  openPopup(popupAddCard)()
 })
 
 // Закрытие попапов
 function closePopup(popup) {
-  document.removeEventListener('keydown',(evt) => {
-    if(evt.key === 'Escape') {
-      closePopup(popup)()
-      console.log('here')
-    }
-  })
+  document.removeEventListener('keydown', closePopupOnClickEsc)
   return () => popup.classList.remove('popup_opened')
 }
 
-popupItem.forEach((popup) => {
-  document.addEventListener('keydown',(evt) => {
-    if(evt.key === 'Escape') {
-      closePopup(popup)()
-    }
-  })
-  popup.firstElementChild.addEventListener('click', closePopup(popup))
-})
+// popupItem.forEach((popup) => {
+//   document.addEventListener('keydown',(evt) => {
+//     if(evt.key === 'Escape') {
+//       closePopup(popup)()
+//     }
+//   })
+//   popup.firstElementChild.addEventListener('click', closePopup(popup))
+// })
 
 buttonClosePopupEditProfile.addEventListener('click', closePopup(popupEditProfile))
 popupAddCardCloseBtn.addEventListener('click', closePopup(popupAddCard))
@@ -81,8 +87,8 @@ popupEditProfileForm.addEventListener('submit', saveEditProfileValue)
 
 // Добавление новых карточек
 function addNewCard() {
-  closePopup(popupAddCard)()
   const newCard = createCard(popupAddCardNameInput.value, popupAddCardImgInput.value)
   cardList.prepend(newCard)
+  closePopup(popupAddCard)()
 }
 popupAddCardForm.addEventListener('submit', addNewCard)
