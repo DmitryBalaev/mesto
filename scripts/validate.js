@@ -1,7 +1,7 @@
 function enableValidation(obj) {
   const formList = Array.from(document.querySelectorAll(obj.formSelector))
   formList.forEach((item) => {
-    item.addEventListener('submit', disableSubmit)
+    item.addEventListener('submit', disableDefaultEvent)
     item.addEventListener('input', () => {
       toggleBtn(item, obj)
     })
@@ -10,7 +10,7 @@ function enableValidation(obj) {
   })
 }
 
-function disableSubmit(evt) {
+function disableDefaultEvent(evt) {
   evt.preventDefault()
 }
 
