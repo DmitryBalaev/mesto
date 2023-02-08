@@ -58,14 +58,6 @@ function closePopup(popup) {
   return () => popup.classList.remove('popup_opened')
 }
 
-// popupItem.forEach((popup) => {
-//   document.addEventListener('keydown',(evt) => {
-//     if(evt.key === 'Escape') {
-//       closePopup(popup)()
-//     }
-//   })
-//   popup.firstElementChild.addEventListener('click', closePopup(popup))
-// })
 
 buttonClosePopupEditProfile.addEventListener('click', closePopup(popupEditProfile))
 popupAddCardCloseBtn.addEventListener('click', closePopup(popupAddCard))
