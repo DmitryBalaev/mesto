@@ -1,9 +1,9 @@
 class Card {
-  constructor(name, link, template, fillPopup){
+  constructor(name, link, template, fillPopupFullScreen){
     this._template = template;
     this._cardImage = link;
     this._cardText = name;
-    this._fillPopup = fillPopup;
+    this._fillPopup = fillPopupFullScreen;
   }
 
   _getTemplate() {
@@ -22,8 +22,6 @@ class Card {
 
     return this._element;
   }
-
-
 
   _setEventListeners() {
     this._element.querySelector('.card__item-trash-btn').addEventListener('click', (evt) => {

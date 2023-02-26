@@ -1,30 +1,9 @@
 import Card from "./Card.js";
+import FormValidator from "./FormValidator.js";
 
+new FormValidator(formValidationObj, popupEditProfileForm).enableValidation(formValidationObj);
+new FormValidator(formValidationObj, popupAddCardForm).enableValidation(formValidationObj);
 
-
-
-// Рендер 6 карточек
-
-// function createCard(name, link) {
-//   const cardItem = cardItemTemplate.querySelector('.cards__item').cloneNode(true)
-//   const cardItemImage = cardItem.querySelector('.cards__item-img')
-//   cardItemImage.src = link
-//   cardItemImage.alt = name
-//   cardItem.querySelector('.cards__item-title').textContent = name
-//   cardItem.querySelector('.cards__item-btn').addEventListener('click', function (evt) {
-//     evt.target.classList.toggle('cards__item-btn_active')
-//   })
-//   cardItem.querySelector('.card__item-trash-btn').addEventListener('click', function (evt) {
-//     evt.target.parentElement.remove()
-//   })
-//   cardItemImage.addEventListener('click', function () {
-//     popupFullScreenImg.src = link
-//     popupFullScreenImg.alt = name
-//     popupFullScreenDescriptions.textContent = name
-//     openPopup(popupFullScreen)()
-//   })
-//   return cardItem
-// }
 
 function fillPopupFullScreen(link, name) {
   popupFullScreenImg.src = link
@@ -32,6 +11,12 @@ function fillPopupFullScreen(link, name) {
   popupFullScreenDescriptions.textContent = name
   openPopup(popupFullScreen)()
 }
+
+function fillInFormInputs() {
+  popupEditProfileUserNameInput.value = profileUserName.textContent;
+  popupEditProfileUserProfessionInput.value = profileProfession.textContent
+}
+
 
  initialCards.forEach((data) => {
   const card = new Card(data.name, data.link, '#card-item', fillPopupFullScreen).generateCard();
@@ -62,7 +47,7 @@ btnEditProfile.addEventListener('click', function () {
 })
 btnAddCard.addEventListener('click', function ()  {
   popupAddCardForm.reset()
-  toggleBtn(popupAddCardForm, formValidationObj)
+  new FormValidator(formValidationObj, '.popup__form_new-card').toggleBtn(popupAddCardForm, formValidationObj)
   openPopup(popupAddCard)()
 })
 
@@ -78,10 +63,6 @@ popupAddCardCloseBtn.addEventListener('click', closePopup(popupAddCard))
 popupFullScreenCloseBtn.addEventListener('click', closePopup(popupFullScreen))
 // Сохранение текста из инпутов
 
-function fillInFormInputs() {
-  popupEditProfileUserNameInput.value = profileUserName.textContent;
-  popupEditProfileUserProfessionInput.value = profileProfession.textContent
-}
 
 // Сохранение value инпутов в профиле
 function saveEditProfileValue() {
