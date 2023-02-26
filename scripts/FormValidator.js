@@ -37,7 +37,6 @@ class FormValidator {
     this._isFormValid = form.checkValidity();
     this._btnSubmit.disabled = !this._isFormValid;
     this._btnSubmit.classList.toggle(obj.buttonDisabledClass, !this._isFormValid);
-    console.log(this._btnSubmit.disabed)
   }
 
   _addInputListeners(form, obj) {
