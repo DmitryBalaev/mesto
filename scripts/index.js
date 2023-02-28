@@ -1,9 +1,10 @@
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
 
-new FormValidator(formValidationObj, popupEditProfileForm).enableValidation(formValidationObj);
-new FormValidator(formValidationObj, popupAddCardForm).enableValidation(formValidationObj);
-
+const editProfileValidator = new FormValidator(formValidationObj, popupEditProfileForm);
+editProfileValidator.enableValidation(formValidationObj);
+const addCardValidator = new FormValidator(formValidationObj, popupAddCardForm);
+addCardValidator.enableValidation(formValidationObj);
 
 function fillPopupFullScreen(link, name) {
   popupFullScreenImg.src = link
@@ -16,12 +17,16 @@ function fillInFormInputs() {
   popupEditProfileUserNameInput.value = profileUserName.textContent;
   popupEditProfileUserProfessionInput.value = profileProfession.textContent
 }
+function createCard(data) {
+  const card = new Card(data.name, data.link, '#card-item', fillPopupFullScreen)
+  const cardElement = card.generateCard();
+  return cardElement
+}
 
-
- initialCards.forEach((data) => {
-  const card = new Card(data.name, data.link, '#card-item', fillPopupFullScreen).generateCard();
-  cardList.append(card);
+initialCards.forEach((data) => {
+  cardList.append(createCard(data));
 })
+
 // Клик на overlay и Esp
 function closePopupOnClickEsc (evt) {
   if(evt.key === 'Escape'){
@@ -29,8 +34,8 @@ function closePopupOnClickEsc (evt) {
     closePopup(currentPopup)()
   }
 }
-popupItem.forEach((item) => {
-  item.firstElementChild.addEventListener('click', closePopup(item))
+ popupItem.forEach((item) => {
+  item.querySelector('.popup__overlay').addEventListener('click', closePopup(item))
 })
 
 // Открытие попапов
@@ -46,8 +51,8 @@ btnEditProfile.addEventListener('click', function () {
   openPopup(popupEditProfile)()
 })
 btnAddCard.addEventListener('click', function ()  {
-  popupAddCardForm.reset()
-  new FormValidator(formValidationObj, '.popup__form_new-card').toggleBtn(popupAddCardForm, formValidationObj)
+  popupAddCardForm.reset();
+  addCardValidator.toggleBtn(popupAddCardForm, formValidationObj);
   openPopup(popupAddCard)()
 })
 
@@ -57,12 +62,10 @@ function closePopup(popup) {
   return () => popup.classList.remove('popup_opened')
 }
 
-
-buttonClosePopupEditProfile.addEventListener('click', closePopup(popupEditProfile))
-popupAddCardCloseBtn.addEventListener('click', closePopup(popupAddCard))
-popupFullScreenCloseBtn.addEventListener('click', closePopup(popupFullScreen))
-// Сохранение текста из инпутов
-
+closeButtons.forEach((button) => {
+  const popup = button.closest('.popup');
+  button.addEventListener('click', () => closePopup(popup)());
+})
 
 // Сохранение value инпутов в профиле
 function saveEditProfileValue() {
@@ -74,8 +77,11 @@ popupEditProfileForm.addEventListener('submit', saveEditProfileValue)
 
 // Добавление новых карточек
 function addNewCard() {
-  const newCard = new Card(popupAddCardNameInput.value, popupAddCardImgInput.value, '#card-item', fillPopupFullScreen).generateCard();
-  cardList.prepend(newCard)
+  const newCard = {
+    name: popupAddCardNameInput.value,
+    link: popupAddCardImgInput.value
+  }
+  cardList.prepend(createCard(newCard))
   closePopup(popupAddCard)()
 }
 popupAddCardForm.addEventListener('submit', addNewCard)
