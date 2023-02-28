@@ -36,8 +36,8 @@ class FormValidator {
 
   toggleBtn(form, obj) {
     this._isFormValid = form.checkValidity();
-    this._btnSubmit.disabled = !this._isFormValid;
-    this._btnSubmit.classList.toggle(obj.buttonDisabledClass, !this._isFormValid);
+    this._submitBtn.disabled = !this._isFormValid;
+    this._submitBtn.classList.toggle(obj.buttonDisabledClass, !this._isFormValid);
   }
 
   _addInputListeners() {
