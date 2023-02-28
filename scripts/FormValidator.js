@@ -2,6 +2,8 @@ class FormValidator {
   constructor(obj, formSelector){
     this._formSelector = formSelector;
     this._obj = obj;
+    this._submitBtn = this._formSelector.querySelector(obj.buttonSelector);
+    this._inputList = Array.from(this._formSelector.querySelectorAll(obj.inputSelector));
   }
 
   enableValidation() {
@@ -10,7 +12,7 @@ class FormValidator {
       this._form.addEventListener('input', () => {
       this.toggleBtn(this._form, this._obj)
     })
-    this._addInputListeners(this._form, this._obj)
+    this._addInputListeners()
     this.toggleBtn(this._form, this._obj)
   }
 
@@ -33,15 +35,12 @@ class FormValidator {
   }
 
   toggleBtn(form, obj) {
-    this._btnSubmit = form.querySelector(obj.buttonSelector);
     this._isFormValid = form.checkValidity();
-    this._btnSubmit.disabled = !this._isFormValid;
-    this._btnSubmit.classList.toggle(obj.buttonDisabledClass, !this._isFormValid);
-    console.log(this._btnSubmit.disabed)
+    this._submitBtn.disabled = !this._isFormValid;
+    this._submitBtn.classList.toggle(obj.buttonDisabledClass, !this._isFormValid);
   }
 
-  _addInputListeners(form, obj) {
-    this._inputList = Array.from(form.querySelectorAll(obj.inputSelector));
+  _addInputListeners() {
     this._inputList.forEach((input) => {
       input.addEventListener('input', (evt) => {
         this._handleFormInput(evt, this._obj)
