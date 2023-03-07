@@ -1,10 +1,27 @@
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
+import Section from "../components/Section.js";
 import './index.css';
-import {initialCards, popupItem, btnEditProfile, closeButtons, btnAddCard, popupEditProfile, popupEditProfileUserNameInput, popupEditProfileUserProfessionInput, popupEditProfileForm, popupAddCard, popupAddCardForm, popupAddCardNameInput, popupAddCardImgInput, popupFullScreen, popupFullScreenDescriptions, popupFullScreenImg, profileUserName, profileProfession, cardList, formValidationObj} from '../utils/constants.js';
+import {initialCards, popupItem, btnEditProfile, closeButtons, btnAddCard, popupEditProfile, popupEditProfileUserNameInput, popupEditProfileUserProfessionInput, popupEditProfileForm, popupAddCard, popupAddCardForm, popupAddCardNameInput, popupAddCardImgInput, popupFullScreen, popupFullScreenDescriptions, popupFullScreenImg, profileUserName, profileProfession, cardListSelector, formValidationObj} from '../utils/constants.js';
 
 
+// Initial 6 card
+const cardSection = new Section({
+  items: initialCards,
+  renderer: (item) => {
+    const card = createCard(item);
+    cardSection.addItem(card)
+}}, cardListSelector);
 
+cardSection.renderItems();
+
+function createCard(data) {
+  const card = new Card(data.name, data.link, '#card-item', fillPopupFullScreen)
+  const cardElement = card.generateCard();
+  return cardElement
+}
+
+// Form validation
 const editProfileValidator = new FormValidator(formValidationObj, popupEditProfileForm);
 editProfileValidator.enableValidation(formValidationObj);
 const addCardValidator = new FormValidator(formValidationObj, popupAddCardForm);
@@ -21,15 +38,7 @@ function fillInFormInputs() {
   popupEditProfileUserNameInput.value = profileUserName.textContent;
   popupEditProfileUserProfessionInput.value = profileProfession.textContent
 }
-function createCard(data) {
-  const card = new Card(data.name, data.link, '#card-item', fillPopupFullScreen)
-  const cardElement = card.generateCard();
-  return cardElement
-}
 
-initialCards.forEach((data) => {
-  cardList.append(createCard(data));
-})
 
 // Клик на overlay и Esp
 function closePopupOnClickEsc (evt) {

@@ -41,7 +41,7 @@ export const popupFullScreenDescriptions = popupFullScreen.querySelector('.full-
 export const popupFullScreenImg = popupFullScreen.querySelector('.full-screen__image')
 export const profileUserName = document.querySelector('.profile__user-name')
 export const profileProfession = document.querySelector('.profile__profession')
-export const cardList = document.querySelector('.cards__list')
+export const cardListSelector = '.cards__list';
 export const formValidationObj = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
