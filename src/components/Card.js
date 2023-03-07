@@ -1,9 +1,9 @@
 class Card {
-  constructor(name, link, template, fillPopupFullScreen){
+  constructor(name, link, template, handleCardClick){
     this._template = template;
     this._cardImage = link;
     this._cardText = name;
-    this._fillPopup = fillPopupFullScreen;
+    this._fillPopup = handleCardClick;
   }
 
   _getTemplate() {
@@ -32,8 +32,10 @@ class Card {
     evt.target.classList.toggle('cards__item-btn_active')
   }
 
-  _handleImageClick = () => this._fillPopup(this._cardImage, this._cardText);
-
+  _handleImageClick = () => {
+    // console.log(this._cardImage)
+    this._fillPopup(this._cardImage, this._cardText);
+  }
   _setEventListeners() {
     this._element.querySelector('.card__item-trash-btn').addEventListener('click', this._deleteCard)
 
