@@ -10,7 +10,7 @@ class Section {
     });
   }
 
-  addItem = (el) => this._container.append(el);
+  addItem = (el) => this._container.prepend(el);
 
 }
 
