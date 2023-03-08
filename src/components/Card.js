@@ -33,7 +33,6 @@ class Card {
   }
 
   _handleImageClick = () => {
-    // console.log(this._cardImage)
     this._fillPopup(this._cardImage, this._cardText);
   }
   _setEventListeners() {

@@ -3,23 +3,26 @@ import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
+import UserInfo from "../components/UserInfo.js";
 import './index.css';
-import {initialCards, btnEditProfile, btnAddCard, popupEditProfileUserNameInput, popupEditProfileUserProfessionInput, popupEditProfileForm, popupAddCardForm, popupFullScreenSelector, popupFullScreenDescriptions, popupFullScreenImg, profileUserName, profileProfession, cardListSelector, formValidationObj} from '../utils/constants.js';
+import {initialCards, btnEditProfile, btnAddCard, popupEditProfileUserNameInput, popupEditProfileUserProfessionInput, popupEditProfileForm, popupAddCardForm, popupFullScreenSelector, popupFullScreenDescriptions, popupFullScreenImg, cardListSelector, formValidationObj, UserProfileSelectorObj} from '../utils/constants.js';
+
+const userInfo = new UserInfo(UserProfileSelectorObj)
 
 const popupWhitImage = new PopupWithImage(popupFullScreenSelector);
 popupWhitImage.setEventListeners();
 
+
 const popupWithFormEdit = new PopupWithForm('.popup-edit', () => {
-  const inputValues = popupWithFormEdit.setInputValues()
-  profileUserName.textContent = inputValues.name;
-  profileProfession.textContent = inputValues.prof;
+  const inputValues = popupWithFormEdit.setInputValues();
+  userInfo.setUserInfo(inputValues);
   popupWithFormEdit.close()
 })
 popupWithFormEdit.setEventListeners()
 
 const popupWithFormAddCard = new PopupWithForm('.popup-add', () => {
-  popupWithFormAddCard.close()
   cardSection.addItem(createCard(popupWithFormAddCard.setInputValues()))
+  popupWithFormAddCard.close()
 })
 popupWithFormAddCard.setEventListeners()
 
@@ -51,13 +54,10 @@ function fillPopupFullScreen(link, name) {
   popupWhitImage.open(link, name)
 }
 
-function fillInFormInputs() {
-  popupEditProfileUserNameInput.value = profileUserName.textContent;
-  popupEditProfileUserProfessionInput.value = profileProfession.textContent
-}
-
 btnEditProfile.addEventListener('click', function () {
-  fillInFormInputs()
+  const profileValues = userInfo.getUserInfo();
+  popupEditProfileUserNameInput.value = profileValues.name;
+  popupEditProfileUserProfessionInput.value = profileValues.prof;
   popupWithFormEdit.open()
 })
 btnAddCard.addEventListener('click', function ()  {
