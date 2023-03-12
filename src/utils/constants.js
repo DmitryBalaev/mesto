@@ -25,7 +25,6 @@ export const initialCards = [
   }
 ];
 export const btnEditProfile = document.querySelector('.profile__edit-btn')
-export const closeButtonSelector = '.popup__btn-close'
 export const btnAddCard = document.querySelector('.profile__add-btn')
 export const popupEditProfileUserNameInput = document.querySelector('.popup__input_user_name')
 export const popupEditProfileUserProfessionInput = document.querySelector('.popup__input_user_profession')
@@ -37,7 +36,6 @@ export const popupFullScreenImg = document.querySelector('.full-screen__image')
 export const profileUserName = document.querySelector('.profile__user-name')
 export const profileProfession = document.querySelector('.profile__profession')
 export const cardListSelector = '.cards__list';
-export const popupOverlaySelector = '.popup__overlay';
 export const formValidationObj = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',

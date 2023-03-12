@@ -33,10 +33,6 @@ class Card {
     this._likeBtn.classList.toggle('cards__item-btn_active')
   }
 
-  _handleImageClick = () => {
-    this._fillPopup(this._cardImage, this._cardText);
-  }
-
   _setEventListeners() {
     this._likeBtn = this._element.querySelector('.cards__item-btn');
 
@@ -47,8 +43,10 @@ class Card {
     this._likeBtn.addEventListener('click', () => {
       this._toggleLike()
     })
-    
-    this._elementImage.addEventListener('click', this._handleImageClick)
+
+    this._elementImage.addEventListener('click', () => {
+      this._fillPopup(this._cardImage, this._cardText)
+    })
   }
 
 }

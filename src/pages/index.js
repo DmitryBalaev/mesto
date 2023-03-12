@@ -12,12 +12,11 @@ const userInfo = new UserInfo(UserProfileSelectorObj)
 
 // Попап картинки
 const popupWhitImage = new PopupWithImage(popupFullScreenSelector);
-popupWhitImage.setEventListeners();
+popupWhitImage.setEventListeners()
 
 // Попап формы изменения данных Пользователя
-const popupWithFormEdit = new PopupWithForm('.popup-edit', () => {
-  const inputValues = popupWithFormEdit.setInputValues();
-  userInfo.setUserInfo(inputValues);
+const popupWithFormEdit = new PopupWithForm('.popup-edit', (data) => {
+  userInfo.setUserInfo(data);
   popupWithFormEdit.close()
 })
 
@@ -25,8 +24,8 @@ popupWithFormEdit.setEventListeners()
 
 
 // Попап формы добавления карточки
-const popupWithFormAddCard = new PopupWithForm('.popup-add', () => {
-  cardSection.addItem(createCard(popupWithFormAddCard.setInputValues()))
+const popupWithFormAddCard = new PopupWithForm('.popup-add', (data) => {
+  cardSection.addItem(createCard(data))
   popupWithFormAddCard.close()
 })
 
@@ -45,9 +44,6 @@ cardSection.renderItems();
 // Возвращаем разметку карточки со слушателями
 function createCard({name, link}) {
   const card = new Card(name, link, '#card-item', (link, name) => {
-    popupFullScreenImg.src = link
-    popupFullScreenImg.alt = name
-    popupFullScreenDescriptions.textContent = name
     popupWhitImage.open(link, name)
   })
   const cardElement = card.generateCard();
@@ -55,10 +51,10 @@ function createCard({name, link}) {
 }
 
 // Валидация форм
-const editProfileValidator = new FormValidator(formValidationObj, popupEditProfileForm);
-editProfileValidator.enableValidation(formValidationObj);
-const addCardValidator = new FormValidator(formValidationObj, popupAddCardForm);
-addCardValidator.enableValidation(formValidationObj);
+const formEditProfileValidator = new FormValidator(formValidationObj, popupEditProfileForm);
+formEditProfileValidator.enableValidation(formValidationObj);
+const formAddCardValidator = new FormValidator(formValidationObj, popupAddCardForm);
+formAddCardValidator.enableValidation(formValidationObj);
 
 // Слушателеи кнопкок открытия попапов
 btnEditProfile.addEventListener('click', function () {
@@ -68,7 +64,6 @@ btnEditProfile.addEventListener('click', function () {
   popupWithFormEdit.open()
 })
 btnAddCard.addEventListener('click', function ()  {
-  popupAddCardForm.reset();
-  addCardValidator.toggleBtn(popupAddCardForm, formValidationObj);
+  formAddCardValidator.toggleBtn(popupAddCardForm, formValidationObj);
   popupWithFormAddCard.open()
 })
