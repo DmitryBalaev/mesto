@@ -3,4 +3,11 @@
   border-radius: 50%;
   max-width: 120px;
   max-height: 120px;
+  transition: opacity .4s;
 }
+
+.profile__avatar:hover {
+  cursor: pointer;
+  opacity: .2;
+}
+

@@ -5,7 +5,7 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import './index.css';
-import {initialCards, btnEditProfile, btnAddCard, popupEditProfileUserNameInput, popupEditProfileUserProfessionInput, popupEditProfileForm, popupAddCardForm, popupFullScreenSelector,  cardListSelector, formValidationObj, UserProfileSelectorObj} from '../utils/constants.js';
+import {initialCards, btnEditProfile, btnAddCard, popupEditProfileUserNameInput, popupEditProfileUserProfessionInput, popupEditProfileForm, popupAddCardForm, popupFullScreenSelector,  cardListSelector, formValidationObj, UserProfileSelectorObj, popupUpdateUserImage, userAvatar} from '../utils/constants.js';
 
 // Работа с данными пользователя
 const userInfo = new UserInfo(UserProfileSelectorObj)
@@ -14,32 +14,34 @@ const userInfo = new UserInfo(UserProfileSelectorObj)
 const popupWhitImage = new PopupWithImage(popupFullScreenSelector);
 popupWhitImage.setEventListeners()
 
+// Попап формы изменения аватара
+const popupWithFormAvatar = new PopupWithForm('.popup-update-user-img', () => {
+  popupWithFormAvatar.close()
+})
+popupWithFormAvatar.setEventListeners()
+
 // Попап формы изменения данных Пользователя
 const popupWithFormEdit = new PopupWithForm('.popup-edit', (data) => {
   userInfo.setUserInfo(data);
   popupWithFormEdit.close()
 })
-
 popupWithFormEdit.setEventListeners()
-
 
 // Попап формы добавления карточки
 const popupWithFormAddCard = new PopupWithForm('.popup-add', (data) => {
   cardSection.addItem(createCard(data))
   popupWithFormAddCard.close()
 })
-
 popupWithFormAddCard.setEventListeners()
 
 // Добавляем на страницу 6 исходных карточек
 const cardSection = new Section({
-  items: initialCards.reverse(),
   renderer: (item) => {
     const card = createCard(item);
     cardSection.addItem(card)
 }}, cardListSelector);
 
-cardSection.renderItems();
+cardSection.renderItems(initialCards.reverse())
 
 // Возвращаем разметку карточки со слушателями
 function createCard({name, link}) {
@@ -49,12 +51,10 @@ function createCard({name, link}) {
   const cardElement = card.generateCard();
   return cardElement
 }
-
 // Валидация форм
 const formEditProfileValidator = new FormValidator(formValidationObj, popupEditProfileForm);
-formEditProfileValidator.enableValidation(formValidationObj);
 const formAddCardValidator = new FormValidator(formValidationObj, popupAddCardForm);
-formAddCardValidator.enableValidation(formValidationObj);
+const formUpdateUserImage = new FormValidator(formValidationObj, popupUpdateUserImage);
 
 // Слушателеи кнопкок открытия попапов
 btnEditProfile.addEventListener('click', function () {
@@ -62,8 +62,13 @@ btnEditProfile.addEventListener('click', function () {
   popupEditProfileUserNameInput.value = profileValues.name;
   popupEditProfileUserProfessionInput.value = profileValues.prof;
   popupWithFormEdit.open()
+  formEditProfileValidator.enableValidation()
 })
 btnAddCard.addEventListener('click', function ()  {
-  formAddCardValidator.toggleBtn(popupAddCardForm, formValidationObj);
   popupWithFormAddCard.open()
+  formAddCardValidator.enableValidation(formValidationObj);
+})
+userAvatar.addEventListener('click', function () {
+  popupWithFormAvatar.open()
+  formUpdateUserImage.enableValidation(formValidationObj)
 })

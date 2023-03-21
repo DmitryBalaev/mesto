@@ -24,12 +24,14 @@ export const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+export const userAvatar = document.querySelector('.profile__avatar')
 export const btnEditProfile = document.querySelector('.profile__edit-btn')
 export const btnAddCard = document.querySelector('.profile__add-btn')
 export const popupEditProfileUserNameInput = document.querySelector('.popup__input_user_name')
 export const popupEditProfileUserProfessionInput = document.querySelector('.popup__input_user_profession')
 export const popupEditProfileForm = document.querySelector('.popup__form_edit-profile')
 export const popupAddCardForm = document.querySelector('.popup__form_new-card')
+export const popupUpdateUserImage = document.querySelector('.popup__form_update-user-img')
 export const popupFullScreenSelector = '.popup-image'
 export const popupFullScreenDescriptions = document.querySelector('.full-screen__descriptions')
 export const popupFullScreenImg = document.querySelector('.full-screen__image')

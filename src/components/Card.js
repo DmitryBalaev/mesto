@@ -25,6 +25,7 @@ class Card {
   }
 
   _deleteCard() {
+    console.log(this._element)
     this._element.remove()
     this._element = null;
   }

@@ -10,10 +10,10 @@ class FormValidator {
     this._form = this._formSelector;
     this._form.addEventListener('submit', this._disableDefaultEvent)
       this._form.addEventListener('input', () => {
-      this.toggleBtn(this._form, this._obj)
+      this._toggleBtn(this._form, this._obj)
     })
+    this._toggleBtn(this._form, this._obj)
     this._addInputListeners()
-    this.toggleBtn(this._form, this._obj)
   }
 
   _disableDefaultEvent(evt) {
@@ -25,16 +25,17 @@ class FormValidator {
     this._inputId = this._input.id;
     this._errorSpan = document.querySelector(`#${this._inputId}-error`);
 
-    if(this._input.validity.valid) {
-      this._input.classList.remove(obj.inputErrorClass)
-      this._errorSpan.textContent = ''
-    } else {
+    if(!this._input.validity.valid) {
       this._input.classList.add(obj.inputErrorClass)
       this._errorSpan.textContent = this._input.validationMessage
+    } if(this._input.validity.valid) {
+      this._input.classList.remove(obj.inputErrorClass)
+      this._errorSpan.textContent = ''
     }
+
   }
 
-  toggleBtn(form, obj) {
+  _toggleBtn(form, obj) {
     this._isFormValid = form.checkValidity();
     this._submitBtn.disabled = !this._isFormValid;
     this._submitBtn.classList.toggle(obj.buttonDisabledClass, !this._isFormValid);

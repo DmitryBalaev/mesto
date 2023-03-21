@@ -16,7 +16,9 @@
     <section class="profile">
       <div class="profile__content">
         <div class="profile__user">
-          <img src="<%=require('./images/Custo.jpg')%>" alt="Аватар пользователя" class="profile__avatar">
+          <div class="profile__avatar-container">
+            <img src="<%=require('./images/Custo.jpg')%>" alt="Аватар пользователя" class="profile__avatar">
+          </div>
           <div class="profile__info">
             <h1 class="profile__user-name">Жак-Ив Кусто</h1>
             <button type="button" class="profile__edit-btn"></button>
@@ -93,7 +95,7 @@
             id="card-link-input"
         >
         <span class="popup__input-error" id="card-link-input-error"></span>
-        <button class="popup__btn-submit" type="submit">Сохранить</button>
+        <button class="popup__btn-submit" type="submit">Создать</button>
       </form>
       <button class="popup__btn-close" type="button"></button>
     </div>
@@ -104,6 +106,36 @@
       <img src="#" alt="" class="full-screen__image">
       <button type="button" class="popup__btn-close"></button>
       <p class="full-screen__descriptions"></p>
+    </div>
+  </div>
+  <div class="popup popup-delete-confirm">
+    <div class="popup__overlay"></div>
+    <div class="popup__container">
+      <h2 class="popup__title">Вы уверены?</h2>
+      <form class="popup__form popup__form_delete-confirm" name="delete-confirm">
+        <button class="popup__btn-submit" type="submit">Да</button>
+      </form>
+      <button class="popup__btn-close" type="button"></button>
+    </div>
+  </div>
+  <div class="popup popup-update-user-img">
+    <div class="popup__overlay"></div>
+    <div class="popup__container">
+      <h2 class="popup__title">Обновить аватар</h2>
+      <form class="popup__form popup__form_update-user-img" name="update-user-img" novalidate>
+        <input
+            class="popup__input popup__input_update-user-img_link"
+            name="link"
+            value=""
+            placeholder="Ссылка на аватар"
+            required
+            type="url"
+            id="user-img-link-input"
+        >
+        <span class="popup__input-error" id="user-img-link-input-error"></span>
+        <button class="popup__btn-submit" type="submit">Сохранить</button>
+      </form>
+      <button class="popup__btn-close" type="button"></button>
     </div>
   </div>
   <template id="card-item">
