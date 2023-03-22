@@ -4,8 +4,36 @@ import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
+import Api from "../components/Api.js";
 import './index.css';
 import {initialCards, btnEditProfile, btnAddCard, popupEditProfileUserNameInput, popupEditProfileUserProfessionInput, popupEditProfileForm, popupAddCardForm, popupFullScreenSelector,  cardListSelector, formValidationObj, UserProfileSelectorObj, popupUpdateUserImage, userAvatar} from '../utils/constants.js';
+
+
+// Api
+const api = new Api({
+  url: 'https://mesto.nomoreparties.co/v1/cohort-62/',
+  headers: {
+    authorization: '0924fc4a-7677-45df-b079-60f5e85d79cd',
+    'Content-Type': 'application/json'
+  }
+})
+// Рендер карточек на страницу
+Promise.resolve(api.getInitialCards())
+.then(res => {
+  console.log(res)
+  cardSection.renderItems(res.reverse())
+  })
+  .catch(err => console.log(err))
+
+// Информация о пользователе
+Promise.resolve(api.getUserInfo())
+  .then(res => {
+    userInfo.setUserInfo(res)
+    userInfo.setUserAvatar(res)
+  })
+  .catch(err => {
+    console.log(err)
+  })
 
 // Работа с данными пользователя
 const userInfo = new UserInfo(UserProfileSelectorObj)
@@ -15,21 +43,43 @@ const popupWhitImage = new PopupWithImage(popupFullScreenSelector);
 popupWhitImage.setEventListeners()
 
 // Попап формы изменения аватара
-const popupWithFormAvatar = new PopupWithForm('.popup-update-user-img', () => {
+const popupWithFormAvatar = new PopupWithForm('.popup-update-user-img', (data) => {
+  popupWithFormAvatar.changeBtnText()
+  Promise.resolve(api.sendAvatar(data))
+  .then(res => {
+    userInfo.setUserAvatar(res)
+  })
+  .catch(err => console.log(err))
+  .finally(() => {
+    popupWithFormAvatar.returnBtnText()
+  })
   popupWithFormAvatar.close()
 })
 popupWithFormAvatar.setEventListeners()
 
 // Попап формы изменения данных Пользователя
 const popupWithFormEdit = new PopupWithForm('.popup-edit', (data) => {
-  userInfo.setUserInfo(data);
+  popupWithFormEdit.changeBtnText()
+  Promise.resolve(api.sendUserData(data))
+  .then(res => {
+    userInfo.setUserInfo(res);
+  })
+  .catch(err => console.log(err))
+  .finally(() => {
+    popupWithFormEdit.returnBtnText()
+  })
   popupWithFormEdit.close()
 })
 popupWithFormEdit.setEventListeners()
 
 // Попап формы добавления карточки
 const popupWithFormAddCard = new PopupWithForm('.popup-add', (data) => {
-  cardSection.addItem(createCard(data))
+  popupWithFormAddCard.changeBtnText()
+  Promise.resolve(api.sendNewCard(data))
+  .then(res => {
+    console.log(res)
+    cardSection.addItem(createCard(res))
+  })
   popupWithFormAddCard.close()
 })
 popupWithFormAddCard.setEventListeners()
@@ -41,13 +91,12 @@ const cardSection = new Section({
     cardSection.addItem(card)
 }}, cardListSelector);
 
-cardSection.renderItems(initialCards.reverse())
-
 // Возвращаем разметку карточки со слушателями
 function createCard({name, link}) {
   const card = new Card(name, link, '#card-item', (link, name) => {
     popupWhitImage.open(link, name)
-  })
+  }
+  )
   const cardElement = card.generateCard();
   return cardElement
 }
@@ -60,7 +109,7 @@ const formUpdateUserImage = new FormValidator(formValidationObj, popupUpdateUser
 btnEditProfile.addEventListener('click', function () {
   const profileValues = userInfo.getUserInfo();
   popupEditProfileUserNameInput.value = profileValues.name;
-  popupEditProfileUserProfessionInput.value = profileValues.prof;
+  popupEditProfileUserProfessionInput.value = profileValues.about;
   popupWithFormEdit.open()
   formEditProfileValidator.enableValidation()
 })

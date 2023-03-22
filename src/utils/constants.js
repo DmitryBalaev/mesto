@@ -48,5 +48,6 @@ export const formValidationObj = {
 
 export const UserProfileSelectorObj = {
   userName: '.profile__user-name',
-  userProf: '.profile__profession'
+  userProf: '.profile__profession',
+  userAvatar: '.profile__avatar'
 }
