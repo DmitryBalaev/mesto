@@ -3,10 +3,11 @@ import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
+import PopupConfirm from "../components/PopupConfirm.js";
 import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
 import './index.css';
-import {initialCards, btnEditProfile, btnAddCard, popupEditProfileUserNameInput, popupEditProfileUserProfessionInput, popupEditProfileForm, popupAddCardForm, popupFullScreenSelector,  cardListSelector, formValidationObj, UserProfileSelectorObj, popupUpdateUserImage, userAvatar} from '../utils/constants.js';
+import {popupConfirmDelete, btnEditProfile, btnAddCard, popupEditProfileUserNameInput, popupEditProfileUserProfessionInput, popupEditProfileForm, popupAddCardForm, popupFullScreenSelector,  cardListSelector, formValidationObj, UserProfileSelectorObj, popupUpdateUserImage, userAvatar} from '../utils/constants.js';
 
 
 // Api
@@ -17,10 +18,11 @@ const api = new Api({
     'Content-Type': 'application/json'
   }
 })
+
+let myId;
 // Рендер карточек на страницу
 Promise.resolve(api.getInitialCards())
 .then(res => {
-  console.log(res)
   cardSection.renderItems(res.reverse())
   })
   .catch(err => console.log(err))
@@ -28,15 +30,34 @@ Promise.resolve(api.getInitialCards())
 // Информация о пользователе
 Promise.resolve(api.getUserInfo())
   .then(res => {
+    myId = res._id
     userInfo.setUserInfo(res)
     userInfo.setUserAvatar(res)
   })
   .catch(err => {
     console.log(err)
-  })
+  });
 
 // Работа с данными пользователя
 const userInfo = new UserInfo(UserProfileSelectorObj)
+
+// Попап подтверждения удаления
+
+const confirmDelete = new PopupConfirm(popupConfirmDelete, (data) => {
+  Promise.resolve(api.deleteCard(data))
+    .then(() => {
+      console.log(data)
+      const card = createCard(data)
+      card.deleteCard()
+    }).then(() => {
+      confirmDelete.close()
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+})
+
+confirmDelete.setEventListeners()
 
 // Попап картинки
 const popupWhitImage = new PopupWithImage(popupFullScreenSelector);
@@ -77,8 +98,8 @@ const popupWithFormAddCard = new PopupWithForm('.popup-add', (data) => {
   popupWithFormAddCard.changeBtnText()
   Promise.resolve(api.sendNewCard(data))
   .then(res => {
-    console.log(res)
-    cardSection.addItem(createCard(res))
+    const cardClass = createCard(res)
+    cardSection.addItem(cardClass.generateCard())
   })
   popupWithFormAddCard.close()
 })
@@ -88,18 +109,26 @@ popupWithFormAddCard.setEventListeners()
 const cardSection = new Section({
   renderer: (item) => {
     const card = createCard(item);
-    cardSection.addItem(card)
+    const cardElement = card.generateCard()
+    cardSection.addItem(cardElement)
 }}, cardListSelector);
 
 // Возвращаем разметку карточки со слушателями
-function createCard({name, link}) {
-  const card = new Card(name, link, '#card-item', (link, name) => {
-    popupWhitImage.open(link, name)
-  }
+const createCard = (data) => {
+  const cardClass = new Card(data, '#card-item',
+   (data) => {
+      popupWhitImage.open(data)
+   },
+  () => {
+    confirmDelete.open(data)
+  },
+  myId
   )
-  const cardElement = card.generateCard();
-  return cardElement
+  // const cardElement = cardClass.generateCard();
+  return  cardClass
 }
+
+
 // Валидация форм
 const formEditProfileValidator = new FormValidator(formValidationObj, popupEditProfileForm);
 const formAddCardValidator = new FormValidator(formValidationObj, popupAddCardForm);

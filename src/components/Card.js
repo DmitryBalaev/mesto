@@ -1,9 +1,13 @@
 class Card {
-  constructor(name, link, template, handleCardClick){
+  constructor(data, template, handleCardClick, handleTrashBtn, myId){
+    this._data = data;
     this._template = template;
-    this._cardImage = link;
-    this._cardText = name;
+    this._cardImage = data.link;
+    this._cardText = data.name;
     this._fillPopup = handleCardClick;
+    this._handleTrashBtn = handleTrashBtn;
+    this._ownerId = data.owner._id
+    this._myId = myId
   }
 
   _getTemplate() {
@@ -15,7 +19,9 @@ class Card {
   generateCard() {
     this._element = this._getTemplate();
     this._elementImage = this._element.querySelector('.cards__item-img')
+    this._trashBtn = this._element.querySelector('.card__item-trash-btn')
     this._setEventListeners();
+    this._checkMyCard()
 
     this._elementImage.src = this._cardImage;
     this._elementImage.alt = this._cardText;
@@ -24,10 +30,17 @@ class Card {
     return this._element;
   }
 
-  _deleteCard() {
-    console.log(this._element)
-    this._element.remove()
-    this._element = null;
+  deleteCard = () => {
+    this._card = this.generateCard()
+    console.log(this._card)
+    this._card.remove()
+    this._card = null;
+  }
+
+  _checkMyCard() {
+    if(this._ownerId !== this._myId){
+      this._trashBtn.remove()
+    }
   }
 
   _toggleLike() {
@@ -37,16 +50,14 @@ class Card {
   _setEventListeners() {
     this._likeBtn = this._element.querySelector('.cards__item-btn');
 
-    this._element.querySelector('.card__item-trash-btn').addEventListener('click', () => {
-      this._deleteCard()
-    })
+    this._trashBtn.addEventListener('click',this._handleTrashBtn)
 
     this._likeBtn.addEventListener('click', () => {
       this._toggleLike()
     })
 
     this._elementImage.addEventListener('click', () => {
-      this._fillPopup(this._cardImage, this._cardText)
+      this._fillPopup(this._data)
     })
   }
 

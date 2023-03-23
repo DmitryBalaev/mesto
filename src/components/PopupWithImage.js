@@ -7,10 +7,10 @@ class PopupWithImage extends Popup {
     this._description = this._popup.querySelector('.full-screen__descriptions')
   }
 
-  open(src, alt) {
-    this._image.src = src;
-    this._image.alt = alt;
-    this._description.textContent = alt;
+  open(data) {
+    this._image.src = data.link;
+    this._image.alt = data.name;
+    this._description.textContent = data.name;
     super.open()
   }
 }

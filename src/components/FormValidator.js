@@ -9,7 +9,7 @@ class FormValidator {
   enableValidation() {
     this._form = this._formSelector;
     this._form.addEventListener('submit', this._disableDefaultEvent)
-      this._form.addEventListener('input', () => {
+    this._form.addEventListener('input', () => {
       this._toggleBtn(this._form, this._obj)
     })
     this._toggleBtn(this._form, this._obj)
@@ -24,7 +24,6 @@ class FormValidator {
     this._input = evt.target;
     this._inputId = this._input.id;
     this._errorSpan = document.querySelector(`#${this._inputId}-error`);
-
     if(!this._input.validity.valid) {
       this._input.classList.add(obj.inputErrorClass)
       this._errorSpan.textContent = this._input.validationMessage
@@ -32,7 +31,6 @@ class FormValidator {
       this._input.classList.remove(obj.inputErrorClass)
       this._errorSpan.textContent = ''
     }
-
   }
 
   _toggleBtn(form, obj) {
@@ -48,6 +46,7 @@ class FormValidator {
       })
     })
   }
+
 }
 
 export default FormValidator
