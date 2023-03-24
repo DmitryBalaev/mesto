@@ -23,6 +23,7 @@ let myId;
 // Рендер карточек на страницу
 Promise.resolve(api.getInitialCards())
 .then(res => {
+  console.log(res)
   cardSection.renderItems(res.reverse())
   })
   .catch(err => console.log(err))
@@ -45,11 +46,7 @@ const userInfo = new UserInfo(UserProfileSelectorObj)
 
 const confirmDelete = new PopupConfirm(popupConfirmDelete, (data) => {
   Promise.resolve(api.deleteCard(data))
-    .then(() => {
-      console.log(data)
-      const card = createCard(data)
-      card.deleteCard()
-    }).then(() => {
+  .then(() => {
       confirmDelete.close()
     })
     .catch((err) => {
@@ -119,12 +116,19 @@ const createCard = (data) => {
    (data) => {
       popupWhitImage.open(data)
    },
-  () => {
-    confirmDelete.open(data)
+    () => {
+      confirmDelete.open(cardClass.cardId)
+      confirmDelete.handleSubmitConfirm(() => {
+        api.deleteCard(cardClass.cardId)
+          .then(() => {
+            cardClass.deleteCard()
+            confirmDelete.close()
+          })
+          .catch(err => console.log(err))
+      })
   },
   myId
   )
-  // const cardElement = cardClass.generateCard();
   return  cardClass
 }
 

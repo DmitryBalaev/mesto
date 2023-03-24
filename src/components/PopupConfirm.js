@@ -8,8 +8,13 @@ class PopupConfirm extends Popup {
     this._submit = submitCallback
   }
 
+  handleSubmitConfirm(confirm) {
+    this._submit = confirm
+  }
+
   open(data) {
     this._data = data
+    console.log(this._data)
     super.open()
   }
 

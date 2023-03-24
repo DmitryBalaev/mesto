@@ -8,6 +8,7 @@ class Card {
     this._handleTrashBtn = handleTrashBtn;
     this._ownerId = data.owner._id
     this._myId = myId
+    this.cardId = data._id
   }
 
   _getTemplate() {
@@ -30,12 +31,11 @@ class Card {
     return this._element;
   }
 
-  deleteCard = () => {
-    this._card = this.generateCard()
-    console.log(this._card)
-    this._card.remove()
-    this._card = null;
-  }
+  deleteCard() {
+    console.log(this)
+    this._element.remove()
+    this._element = null
+    }
 
   _checkMyCard() {
     if(this._ownerId !== this._myId){
@@ -44,13 +44,16 @@ class Card {
   }
 
   _toggleLike() {
+    console.log(this._element)
     this._likeBtn.classList.toggle('cards__item-btn_active')
   }
 
   _setEventListeners() {
     this._likeBtn = this._element.querySelector('.cards__item-btn');
 
-    this._trashBtn.addEventListener('click',this._handleTrashBtn)
+    this._trashBtn.addEventListener('click',() => {
+      this._handleTrashBtn()
+    })
 
     this._likeBtn.addEventListener('click', () => {
       this._toggleLike()
