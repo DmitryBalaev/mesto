@@ -1,10 +1,10 @@
 import Popup from "./Popup.js";
 
 class PopupConfirm extends Popup {
-  constructor(popupSelector, submitCallback){
+  constructor(popupSelector, {submitCallback}) {
     super(popupSelector)
-    this._submitBtn = this._popup.querySelector('.popup__btn-submit');
-    this._form = this._popup.querySelector('.popup__form');
+    this._submitBtn = this._popup.querySelector('.popup__btn-submit')
+    this._form = this._popup.querySelector('.popup__form')
     this._submit = submitCallback
   }
 
@@ -26,6 +26,14 @@ class PopupConfirm extends Popup {
 
     super.setEventListeners()
   }
+
+  changeBtnText() {
+    this._submitBtn.textContent = 'Удаление...'
+  }
+
+  returnBtnText() {
+    this._submitBtn.textContent = 'Да'
+  }
 }
 
-export default PopupConfirm;
+export default PopupConfirm

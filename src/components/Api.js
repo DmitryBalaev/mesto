@@ -1,14 +1,14 @@
 class Api {
   constructor(optionObj) {
-    this._url = optionObj.url;
-    this._headers = optionObj.headers;
+    this._url = optionObj.url
+    this._headers = optionObj.headers
   }
 
   getInitialCards() {
-   return fetch(`${this._url}cards`, {
+    return fetch(`${this._url}cards`, {
       headers: this._headers
     })
-    .then(this._handleResponse)
+      .then(this._handleResponse)
   }
 
   _handleResponse(res) {
@@ -19,7 +19,7 @@ class Api {
     return fetch(`${this._url}users/me`, {
       headers: this._headers
     })
-    .then(this._handleResponse)
+      .then(this._handleResponse)
   }
 
   sendAvatar(link) {
@@ -28,7 +28,7 @@ class Api {
       method: 'PATCH',
       body: JSON.stringify(link)
     })
-    .then(this._handleResponse)
+      .then(this._handleResponse)
   }
 
   sendUserData(data) {
@@ -37,7 +37,7 @@ class Api {
       method: 'PATCH',
       body: JSON.stringify(data)
     })
-    .then(this._handleResponse)
+      .then(this._handleResponse)
   }
 
   sendNewCard(data) {
@@ -46,7 +46,7 @@ class Api {
       method: 'POST',
       body: JSON.stringify(data)
     })
-    .then(this._handleResponse)
+      .then(this._handleResponse)
   }
 
   deleteCard(id) {
@@ -54,7 +54,23 @@ class Api {
       headers: this._headers,
       method: 'DELETE'
     })
-    .then(this._handleResponse)
+      .then(this._handleResponse)
+  }
+
+  deleteLike(id) {
+    return fetch(`${this._url}cards/${id}/likes`, {
+      headers: this._headers,
+      method: 'DELETE'
+    })
+      .then(this._handleResponse)
+  }
+
+  sendLike(id) {
+    return fetch(`${this._url}cards/${id}/likes`, {
+      headers: this._headers,
+      method: 'PUT'
+    })
+      .then(this._handleResponse)
   }
 
 }
