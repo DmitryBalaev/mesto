@@ -80,41 +80,43 @@ const popupWithFormAvatar = new PopupWithForm('.popup-update-user-img', {
 popupWithFormAvatar.setEventListeners()
 
 // Попап формы изменения данных Пользователя
-const popupWithFormEdit = new PopupWithForm('.popup-edit', (data) => {
-  popupWithFormEdit.changeBtnText()
-  Promise.resolve(api.sendUserData(data))
-    .then(res => {
-      userInfo.setUserInfo(res)
-    })
-    .catch(err => console.log(err))
-    .finally(() => {
-      popupWithFormEdit.returnBtnText()
-    })
-  popupWithFormEdit.close()
-},
-  () => {
+const popupWithFormEdit = new PopupWithForm('.popup-edit', {
+  handleFormSubmit: (data) => {
+    popupWithFormEdit.changeBtnText()
+    Promise.resolve(api.sendUserData(data))
+      .then(res => {
+        userInfo.setUserInfo(res)
+      })
+      .catch(err => console.log(err))
+      .finally(() => {
+        popupWithFormEdit.returnBtnText()
+      })
+    popupWithFormEdit.close()
+  },
+  handleClose: () => {
     formEditProfileValidator.resetErrorSpan(formValidationObj)
   }
-)
+})
 popupWithFormEdit.setEventListeners()
 
 // Попап формы добавления карточки
-const popupWithFormAddCard = new PopupWithForm('.popup-add', (data) => {
-  popupWithFormAddCard.changeBtnText()
-  Promise.resolve(api.sendNewCard(data))
-    .then(res => {
-      cardSection.addItem(createCard(res))
-    })
-    .catch(err => console.log(err))
-    .finally(() => {
-      popupWithFormAddCard.returnBtnText()
-    })
-  popupWithFormAddCard.close()
-},
-  () => {
+const popupWithFormAddCard = new PopupWithForm('.popup-add', {
+  handleFormSubmit: (data) => {
+    popupWithFormAddCard.changeBtnText()
+    Promise.resolve(api.sendNewCard(data))
+      .then(res => {
+        cardSection.addItem(createCard(res))
+      })
+      .catch(err => console.log(err))
+      .finally(() => {
+        popupWithFormAddCard.returnBtnText()
+      })
+    popupWithFormAddCard.close()
+  },
+  handleClose: () => {
     formAddCardValidator.resetErrorSpan(formValidationObj)
   }
-)
+})
 popupWithFormAddCard.setEventListeners()
 
 // Добавляем на страницу 6 исходных карточек
