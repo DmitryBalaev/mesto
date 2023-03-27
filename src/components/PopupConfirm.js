@@ -12,12 +12,6 @@ class PopupConfirm extends Popup {
     this._submit = confirm
   }
 
-  open(data) {
-    this._data = data
-    console.log(this._data)
-    super.open()
-  }
-
   setEventListeners() {
     this._form.addEventListener('submit', (evt) => {
       evt.preventDefault()

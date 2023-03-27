@@ -27,7 +27,6 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
     userInfo.setUserInfo(user)
     userInfo.setUserAvatar(user)
 
-    console.log(cards)
     cardSection.renderItems(cards.reverse())
   })
   .catch(err => console.log(err))
@@ -40,13 +39,11 @@ const userInfo = new UserInfo(UserProfileSelectorObj)
 const confirmDelete = new PopupConfirm(popupConfirmDelete, {
   submitCallback: (data) => {
     confirmDelete.changeBtnText()
-    Promise.resolve(api.deleteCard(data))
+    api.deleteCard(data)
       .then(() => {
         confirmDelete.close()
       })
-      .catch((err) => {
-        console.log(err)
-      })
+      .catch(err => console.log(err))
       .finally(() => {
         confirmDelete.returnBtnText()
       })
@@ -63,15 +60,15 @@ popupWhitImage.setEventListeners()
 const popupWithFormAvatar = new PopupWithForm('.popup-update-user-img', {
   handleFormSubmit: (data) => {
     popupWithFormAvatar.changeBtnText()
-    Promise.resolve(api.sendAvatar(data))
+    api.sendAvatar(data)
       .then(res => {
         userInfo.setUserAvatar(res)
       })
+      .then(() => popupWithFormAvatar.close())
       .catch(err => console.log(err))
       .finally(() => {
         popupWithFormAvatar.returnBtnText()
       })
-    popupWithFormAvatar.close()
   },
   handleClose: () => {
     formUpdateUserImage.resetErrorSpan(formValidationObj)
@@ -83,15 +80,15 @@ popupWithFormAvatar.setEventListeners()
 const popupWithFormEdit = new PopupWithForm('.popup-edit', {
   handleFormSubmit: (data) => {
     popupWithFormEdit.changeBtnText()
-    Promise.resolve(api.sendUserData(data))
+    api.sendUserData(data)
       .then(res => {
         userInfo.setUserInfo(res)
       })
+      .then(() => popupWithFormEdit.close())
       .catch(err => console.log(err))
       .finally(() => {
         popupWithFormEdit.returnBtnText()
       })
-    popupWithFormEdit.close()
   },
   handleClose: () => {
     formEditProfileValidator.resetErrorSpan(formValidationObj)
@@ -103,15 +100,15 @@ popupWithFormEdit.setEventListeners()
 const popupWithFormAddCard = new PopupWithForm('.popup-add', {
   handleFormSubmit: (data) => {
     popupWithFormAddCard.changeBtnText()
-    Promise.resolve(api.sendNewCard(data))
+    api.sendNewCard(data)
       .then(res => {
         cardSection.addItem(createCard(res))
       })
+      .then(() => popupWithFormAddCard.close())
       .catch(err => console.log(err))
       .finally(() => {
         popupWithFormAddCard.returnBtnText()
       })
-    popupWithFormAddCard.close()
   },
   handleClose: () => {
     formAddCardValidator.resetErrorSpan(formValidationObj)
@@ -137,7 +134,7 @@ const createCard = (data) => {
         popupWhitImage.open(data)
       },
       handleTrashBtn: () => {
-        confirmDelete.open(cardClass.cardId)
+        confirmDelete.open()
         confirmDelete.handleSubmitConfirm(() => {
           confirmDelete.changeBtnText()
           api.deleteCard(cardClass.cardId)
@@ -153,7 +150,6 @@ const createCard = (data) => {
       },
       handleLike: () => {
         if (cardClass.isLike()) {
-          console.log(cardClass.isLike)
           api.deleteLike(cardClass.cardId)
             .then((data) => {
               cardClass.removeLike()
@@ -163,7 +159,6 @@ const createCard = (data) => {
         } else {
           api.sendLike(cardClass.cardId)
             .then((data) => {
-              console.log(data)
               cardClass.showLike()
               cardClass.setLike(data.likes)
             })
@@ -183,19 +178,20 @@ const formEditProfileValidator = new FormValidator(formValidationObj, popupEditP
 const formAddCardValidator = new FormValidator(formValidationObj, popupAddCardForm)
 const formUpdateUserImage = new FormValidator(formValidationObj, popupUpdateUserImage)
 
+formEditProfileValidator.enableValidation()
+formAddCardValidator.enableValidation()
+formUpdateUserImage.enableValidation()
+
 // Слушателеи кнопкок открытия попапов
 btnEditProfile.addEventListener('click', function () {
   const profileValues = userInfo.getUserInfo()
   popupEditProfileUserNameInput.value = profileValues.name
   popupEditProfileUserProfessionInput.value = profileValues.about
   popupWithFormEdit.open()
-  formEditProfileValidator.enableValidation()
 })
 btnAddCard.addEventListener('click', function () {
   popupWithFormAddCard.open()
-  formAddCardValidator.enableValidation()
 })
 userAvatar.addEventListener('click', function () {
   popupWithFormAvatar.open()
-  formUpdateUserImage.enableValidation()
 })
